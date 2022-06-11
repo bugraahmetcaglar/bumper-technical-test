@@ -7,7 +7,7 @@ from guestbook.serializers import GuestBookRetrieveUpdateDestroySerializer, Gues
 
 
 class GuestBookRetrieveUpdateDestroyAPIView(ExtendedRetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.AllowAny, ]
+    permission_classes = [permissions.IsAuthenticated, ]
     queryset = GuestBook.objects.all()
     serializer_class = GuestBookRetrieveUpdateDestroySerializer
     lookup_field = 'id'
@@ -17,7 +17,7 @@ class GuestBookRetrieveUpdateDestroyAPIView(ExtendedRetrieveUpdateDestroyAPIView
 
 
 class GuestBookListCreateAPIView(ExtendedListCreateAPIView):
-    permission_classes = [permissions.AllowAny, ]
+    permission_classes = [permissions.IsAuthenticated, ]
     pagination_class = StandardResultsSetPagination
     serializer_class = GuestBookListCreateSerializer
     queryset = GuestBook.objects.all()
