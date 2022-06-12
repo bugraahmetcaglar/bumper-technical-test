@@ -1,7 +1,4 @@
 # Bugra Ahmet Caglar
-import requests
-from django.core.mail import send_mail
-from django.http import JsonResponse
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
@@ -13,10 +10,9 @@ from rest_framework.response import Response
 
 from assignment.constants import BaseResponse
 from assignment.generics import StandardResultsSetPagination
-from assignment.settings import EMAIL_FROM_EMAIL
 from user.models import User
 from user.serializers import UserLoginSerializer, UserRegisterSerializer, UserDetailSerializer, \
-    UserForgetPasswordSerializer, UserLogoutSerializer, UserListSerializer, UserResetPasswordSerializer
+    UserLogoutSerializer, UserListSerializer, UserResetPasswordSerializer
 
 JWT_PAYLOAD_HANDLER = api_settings.JWT_PAYLOAD_HANDLER
 JWT_ENCODE_HANDLER = api_settings.JWT_ENCODE_HANDLER
@@ -43,12 +39,12 @@ class UserRegistrationAPIView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         response = BaseResponse.success_response(message="User successfully created.", status_code=201)
-        return Response(data=response, status=200)
+        return Response(data=response, status=201)
 
 
 class UserDetailAPIView(RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = UserDetailSerializer
+    permission_classes = [permissions.AllowAny, ]
+    serializer_class = UserListSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
 
@@ -67,8 +63,13 @@ class UserLogoutAPIView(CreateAPIView):
 
 
 class UserListAPIView(ListAPIView):
-    permission_classes = permissions.AllowAny,
+    permission_classes = [permissions.AllowAny, ]
     serializer_class = UserListSerializer
     pagination_class = StandardResultsSetPagination
     queryset = User.objects.all()
     lookup_field = 'id'
+
+    def list(self, request, *args, **kwargs):
+        obj = User.objects.all()
+        serializer = self.serializer_class(obj, many=True)
+        return Response(serializer.data, 200)

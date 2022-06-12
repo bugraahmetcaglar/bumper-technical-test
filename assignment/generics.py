@@ -37,7 +37,8 @@ class ExtendedUpdateAPIView(UpdateAPIView):
 class ExtendedRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
     def perform_update(self, serializer):
-        serializer.save(updated_by=self.request.user, updated_at=datetime.utcnow())
+        # serializer.save(updated_by=self.request.user, updated_at=datetime.utcnow())
+        pass
 
 
 class ExtendedListCreateAPIView(ListCreateAPIView):
@@ -46,7 +47,8 @@ class ExtendedListCreateAPIView(ListCreateAPIView):
     ordering = ('-created_at',)
 
     def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        # serializer.save(created_by=self.request.user)
+        pass
 
 
 class StandardResultsSetPagination(PageNumberPagination):

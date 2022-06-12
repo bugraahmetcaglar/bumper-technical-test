@@ -58,9 +58,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 
 class UserListSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(read_only=True)
+    username = serializers.CharField(read_only=True)
+    first_name = serializers.CharField(read_only=True)
+    last_name = serializers.CharField(read_only=True)
+    date_joined = serializers.DateTimeField(read_only=True)
+    last_login = serializers.DateTimeField(read_only=True)
+
     class Meta:
         model = User
-        exclude = ('password', 'is_superuser', 'is_staff', 'is_active')
+        fields = ['email', 'username', 'first_name', 'last_name', 'date_joined', 'last_login']
 
 
 class UserLogoutSerializer(serializers.Serializer):

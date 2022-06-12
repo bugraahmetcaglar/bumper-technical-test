@@ -27,6 +27,6 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
 
     # User
-    path('v1/user/', include("user.urls")),
-    path('v1/guestbook/', include("guestbook.urls")),
+    path('api/v1/', include("user.urls")),
+    path('api/v1/', include("guestbook.urls")),
 ]

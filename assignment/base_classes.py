@@ -1,4 +1,3 @@
-# Bugra Ahmet Caglar
 import uuid
 
 from django.db import models
@@ -10,7 +9,7 @@ class BaseModel(models.Model):
     updated_at = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     created_by = models.ForeignKey('user.User', null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
     updated_by = models.ForeignKey('user.User', null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         abstract = True
